@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="theme-color" content="#8B0000"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="शिवनारायण बेकरी"/>
+<meta name="description" content="श्री शिवनारायण केक बेकरी एंड आइसक्रीम पार्लर - भदौरा, गाजीपुर"/>
+<title>श्री शिवनारायण बेकरी</title>
+
+<!-- PWA Manifest inline -->
+<script>
+const manifestData = {
+  name: "श्री शिवनारायण केक बेकरी एंड आइसक्रीम पार्लर",
+  short_name: "शिवनारायण बेकरी",
+  description: "भदौरा, मोहम्मदाबाद, गाजीपुर",
+  start_url: "./",
+  display: "standalone",
+  background_color: "#FFF8F0",
+  theme_color: "#8B0000",
+  orientation: "portrait",
+  icons: [
+    { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%238B0000'/><text y='130' x='96' text-anchor='middle' font-size='110'>🍰</text></svg>", sizes: "192x192", type: "image/svg+xml" },
+    { src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='80' fill='%238B0000'/><text y='360' x='256' text-anchor='middle' font-size='300'>🍰</text></svg>", sizes: "512x512", type: "image/svg+xml" }
+  ]
+};
+const blob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+const manifestURL = URL.createObjectURL(blob);
+document.write('<link rel="manifest" href="' + manifestURL + '"/>');
+</script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#FFF8F0;max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden;}
+a{text-decoration:none;}
+button{font-family:inherit;cursor:pointer;}
+input{font-family:inherit;}
+
+/* STATUS BAR */
+#statusBar{height:env(safe-area-inset-top,8px);background:#6D0000;min-height:8px;}
+
+/* HEADER */
+#header{background:linear-gradient(135deg,#8B0000 0%,#B71C1C 60%,#C62828 100%);padding:14px 14px 10px;position:relative;overflow:hidden;}
+#headerGlow{position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,200,100,0.15);}
+#logoRow{display:flex;align-items:flex-start;gap:10px;position:relative;}
+#logoEmoji{font-size:34px;line-height:1;}
+#shopInfo{flex:1;}
+#shopName{font-size:20px;font-weight:800;color:#FFD700;letter-spacing:0.5px;line-height:1.2;text-shadow:0 1px 4px rgba(0,0,0,0.3);}
+#shopSub{font-size:11px;color:#FFCDD2;letter-spacing:0.3px;}
+#shopAddr{font-size:9px;color:#FFAB91;margin-top:2px;}
+#headerBtns{display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
+#cartBtn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:5px 10px;font-size:18px;position:relative;color:#fff;}
+#cartBadge{position:absolute;top:-4px;right:-4px;background:#FFD700;color:#8B0000;font-size:9px;font-weight:800;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;display:none;}
+#adminGearBtn{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:3px 8px;font-size:14px;color:#fff;}
+#tagline{text-align:center;color:#FFECB3;font-size:11px;margin-top:8px;letter-spacing:1px;}
+
+/* OFFER BANNER */
+#offerBanner{padding:10px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border-bottom:1px solid #EEE;transition:background 0.5s;}
+#offerText{font-size:13px;font-weight:600;color:#333;}
+#offerArrow{font-size:20px;color:#999;}
+
+/* INSTALL BANNER */
+#installBanner{background:linear-gradient(135deg,#1565C0,#0D47A1);color:#fff;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+#installText{font-size:12px;font-weight:600;flex:1;}
+#installBtn{background:#FFD700;color:#1565C0;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;white-space:nowrap;}
+#installClose{background:none;border:none;color:rgba(255,255,255,0.7);font-size:18px;padding:0 4px;}
+
+/* CONTENT */
+#content{flex:1;overflow-y:auto;padding:12px 14px 90px;}
+
+/* SECTION TITLE */
+.sectionTitle{font-size:16px;font-weight:700;color:#4A0000;margin:8px 0 12px;border-left:4px solid #8B0000;padding-left:8px;}
+
+/* CATEGORY GRID */
+.catGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.catCard{background:#fff;border:2px solid;border-radius:14px;padding:14px;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07);transition:transform 0.1s;}
+.catCard:active{transform:scale(0.97);}
+.catEmojiBg{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;}
+.catEmoji{font-size:24px;}
+.catName{font-size:14px;font-weight:700;}
+.catCount{font-size:10px;color:#999;margin-top:2px;}
+
+/* POPULAR */
+.popularList{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.popularCard{background:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.popularEmoji{font-size:22px;}
+.popularInfo{flex:1;}
+.popularName{font-size:13px;font-weight:600;color:#222;}
+.popularCat{font-size:10px;color:#888;}
+.popularPrice{font-size:14px;font-weight:700;color:#8B0000;}
+
+/* CONTACT */
+.contactCard{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-radius:14px;padding:14px;border:1px solid #FFCC80;margin-bottom:8px;}
+.contactTitle{font-size:14px;font-weight:700;color:#4A0000;margin-bottom:10px;}
+.phoneRow{display:flex;align-items:center;gap:10px;background:#FFF8F0;border-radius:10px;padding:10px 12px;margin-bottom:8px;border:1px solid #FFE0B2;}
+.phoneRow2{background:#FFF0F5;border-color:#F8BBD0;}
+.phoneIcon{font-size:22px;}
+.phoneLabel{font-size:10px;color:#888;}
+.phoneNum{font-size:16px;font-weight:800;color:#222;}
+.callChip{margin-left:auto;background:#8B0000;color:#fff;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;}
+.callChip2{background:#C2185B;}
+.contactLine{font-size:12px;color:#555;margin-top:5px;}
+
+/* MENU */
+.menuHeader{border-radius:14px;padding:12px 16px;color:#fff;display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.itemGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.itemCard{background:#fff;border-radius:14px;padding:12px;box-shadow:0 2px 8px rgba(0,0,0,0.07);display:flex;flex-direction:column;}
+.itemEmoji{font-size:24px;margin-bottom:4px;}
+.itemName{font-size:12px;font-weight:700;color:#222;margin-bottom:2px;}
+.itemDesc{font-size:10px;color:#888;flex:1;margin-bottom:6px;}
+.itemBottom{display:flex;align-items:center;justify-content:space-between;}
+.itemPrice{font-size:12px;font-weight:700;}
+.addBtn{color:#fff;border:none;border-radius:8px;padding:4px 7px;font-size:10px;font-weight:700;}
+.qtyRow{display:flex;align-items:center;gap:4px;}
+.qtyBtn{color:#fff;border:none;border-radius:6px;width:22px;height:22px;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.qtyNum{font-size:12px;font-weight:700;min-width:14px;text-align:center;}
+
+/* CART */
+.cartItem{background:#fff;border-radius:12px;padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 1px 6px rgba(0,0,0,0.07);}
+.cartItemName{font-size:13px;font-weight:700;color:#222;}
+.cartItemCat{font-size:10px;color:#888;}
+.cartRight{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.cartPrice{font-size:12px;font-weight:700;color:#8B0000;}
+.orderNote{text-align:center;font-size:12px;color:#666;padding:8px 10px;background:#FFF3E0;border-radius:10px;margin-bottom:8px;}
+.orderBtnLink{display:block;color:#FFD700;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:800;text-align:center;margin-bottom:0;}
+.clearBtn{display:block;width:100%;background:none;color:#999;border:1px solid #ddd;border-radius:12px;padding:10px;font-size:12px;margin-top:8px;}
+.emptyCart{text-align:center;padding:60px 20px;}
+.emptyEmoji{font-size:56px;margin-bottom:8px;}
+.emptyText{font-size:16px;color:#999;margin-bottom:16px;}
+.browseBtn{background:#8B0000;color:#fff;border:none;border-radius:12px;padding:12px 32px;font-size:14px;font-weight:700;}
+
+/* ABOUT */
+.aboutHero{text-align:center;padding:18px 0 8px;}
+.aboutCard{background:#fff;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.aboutHeading{font-size:14px;font-weight:700;color:#4A0000;margin-bottom:8px;}
+.aboutText{font-size:12px;color:#555;line-height:1.6;margin-bottom:10px;}
+.featureGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.featureItem{background:#FFF3E0;border-radius:8px;padding:7px 8px;font-size:11px;font-weight:600;color:#7B3F00;text-align:center;}
+.timingCard{background:linear-gradient(135deg,#8B0000,#C62828);border-radius:14px;padding:14px;color:#fff;}
+.timingTitle{font-size:14px;font-weight:700;margin-bottom:8px;}
+.timingRow{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:5px;}
+
+/* ADMIN */
+.adminHeader{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#8B0000,#C62828);color:#FFD700;border-radius:12px;padding:12px 14px;margin-bottom:12px;font-weight:800;font-size:15px;}
+.logoutBtn{background:rgba(255,255,255,0.2);border:none;color:#fff;border-radius:8px;padding:5px 10px;font-size:12px;}
+.adminTabs{display:flex;gap:8px;margin-bottom:14px;}
+.adminTab{flex:1;padding:9px;border:2px solid #ddd;border-radius:10px;background:#fff;font-size:13px;font-weight:600;}
+.adminTabActive{background:#8B0000;color:#fff;border-color:#8B0000;}
+.adminSectionTitle{font-size:14px;font-weight:700;color:#4A0000;margin-bottom:10px;}
+.offerManageCard{border-radius:10px;padding:10px 12px;margin-bottom:8px;border:1px solid #ddd;}
+.offerManageText{font-size:13px;font-weight:600;color:#333;margin-bottom:8px;}
+.offerManageBtns{display:flex;gap:6px;flex-wrap:wrap;}
+.toggleBtnOn{background:#F44336;color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;}
+.toggleBtnOff{background:#4CAF50;color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;}
+.editBtn{background:#FF9800;color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;}
+.deleteBtn{background:#F44336;color:#fff;border:none;border-radius:7px;padding:5px 8px;font-size:11px;}
+.adminFormCard{background:#fff;border:1.5px dashed #8B0000;border-radius:12px;padding:14px;margin-top:10px;}
+.adminFormTitle{font-size:13px;font-weight:700;color:#8B0000;margin-bottom:10px;}
+.formInput{width:100%;border:1.5px solid #ddd;border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:10px;outline:none;}
+.catChip{border-radius:20px;padding:6px 12px;border:none;font-size:12px;font-weight:600;margin-bottom:6px;}
+.menuManageCard{background:#fff;border-radius:10px;padding:10px 12px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.menuManageRow{display:flex;justify-content:space-between;align-items:center;}
+.menuManageInfo .itemTitle{font-size:13px;font-weight:700;}
+.menuManageInfo .itemSub{font-size:11px;color:#888;}
+.menuManageInfo .itemPr{font-size:13px;font-weight:700;}
+.menuManageBtns{display:flex;gap:4px;}
+.colorDot{width:30px;height:30px;border-radius:7px;display:inline-block;cursor:pointer;border:2px solid #ddd;margin-right:6px;margin-bottom:4px;}
+.primaryBtn{background:#8B0000;color:#fff;border:none;border-radius:10px;padding:10px 20px;font-size:13px;font-weight:700;}
+.cancelBtn{background:#eee;color:#555;border:none;border-radius:10px;padding:10px 16px;font-size:13px;}
+
+/* MODAL */
+.modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;z-index:1000;}
+.modal{background:#fff;border-radius:16px;padding:24px;width:85%;max-width:320px;box-shadow:0 8px 32px rgba(0,0,0,0.2);}
+.modalTitle{font-size:17px;font-weight:800;color:#8B0000;margin-bottom:12px;text-align:center;}
+.modalHint{font-size:12px;color:#888;text-align:center;margin-bottom:12px;}
+.errorText{color:#C62828;font-size:12px;margin-bottom:8px;text-align:center;}
+
+/* BOTTOM NAV */
+#bottomNav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:2px solid #8B0000;display:flex;justify-content:space-around;padding:6px 0 calc(10px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 20px rgba(0,0,0,0.1);z-index:100;}
+.navBtn{background:none;border:none;display:flex;flex-direction:column;align-items:center;padding:4px 6px;border-radius:10px;min-width:48px;position:relative;}
+.navBtn.active{background:#FFF0F0;}
+.navIcon{font-size:20px;}
+.navLabel{font-size:9px;color:#8B0000;font-weight:600;margin-top:1px;}
+.navBadge{position:absolute;top:0;right:6px;background:#8B0000;color:#fff;font-size:8px;font-weight:800;border-radius:50%;width:13px;height:13px;display:flex;align-items:center;justify-content:center;display:none;}
+
+/* BACK BTN */
+.backBtn{background:none;border:none;color:#8B0000;font-size:14px;font-weight:600;padding:4px 0;margin-bottom:10px;display:block;}
+
+/* SCREEN HIDE */
+.screen{display:none;}
+.screen.active{display:block;}
+</style>
+</head>
+<body>
+
+<div id="statusBar"></div>
+
+<!-- HEADER -->
+<div id="header">
+  <div id="headerGlow"></div>
+  <div id="logoRow">
+    <span id="logoEmoji">🍰</span>
+    <div id="shopInfo">
+      <div id="shopName">श्री शिवनारायण</div>
+      <div id="shopSub">केक बेकरी एंड आइसक्रीम पार्लर</div>
+      <div id="shopAddr">📍 भदौरा, मोहम्मदाबाद, गाजीपुर, उ.प्र. — 233231</div>
+    </div>
+    <div id="headerBtns">
+      <button id="cartBtn" onclick="showScreen('cart')">🛒<span id="cartBadge">0</span></button>
+      <button id="adminGearBtn" onclick="onGearClick()">⚙️</button>
+    </div>
+  </div>
+  <div id="tagline">✨ शुद्धता और स्वाद का संगम ✨</div>
+</div>
+
+<!-- INSTALL BANNER -->
+<div id="installBanner" style="display:none;">
+  <span id="installText">📲 होम स्क्रीन पर ऐड करें — ऐप की तरह चलेगा!</span>
+  <button id="installBtn" onclick="installApp()">Install</button>
+  <button id="installClose" onclick="document.getElementById('installBanner').style.display='none'">✕</button>
+</div>
+
+<!-- OFFER BANNER -->
+<div id="offerBanner" onclick="nextOffer()">
+  <span id="offerText">लोड हो रहा है...</span>
+  <span id="offerArrow">›</span>
+</div>
+
+<!-- CONTENT -->
+<div id="content">
+
+  <!-- HOME SCREEN -->
+  <div id="screen-home" class="screen active">
+    <div class="sectionTitle">हमारी श्रेणियाँ</div>
+    <div class="catGrid" id="catGrid"></div>
+    <div class="sectionTitle">⭐ पॉपुलर आइटम</div>
+    <div class="popularList" id="popularList">
+      <div class="popularCard"><span class="popularEmoji">🎂</span><div class="popularInfo"><div class="popularName">ब्लैकफॉरेस्ट केक</div><div class="popularCat">केक</div></div><div class="popularPrice">₹420</div></div>
+      <div class="popularCard"><span class="popularEmoji">🍦</span><div class="popularInfo"><div class="popularName">मैंगो आइसक्रीम</div><div class="popularCat">आइसक्रीम</div></div><div class="popularPrice">₹55</div></div>
+      <div class="popularCard"><span class="popularEmoji">⭐</span><div class="popularInfo"><div class="popularName">वेडिंग केक</div><div class="popularCat">स्पेशल</div></div><div class="popularPrice">₹2500+</div></div>
+    </div>
+    <div class="contactCard">
+      <div class="contactTitle">📞 हमसे संपर्क करें</div>
+      <a href="tel:9565036890" class="phoneRow">
+        <span class="phoneIcon">📦</span>
+        <div><div class="phoneLabel">ऑर्डर के लिए</div><div class="phoneNum">9565036890</div></div>
+        <span class="callChip">📞 कॉल</span>
+      </a>
+      <a href="tel:6393325633" class="phoneRow phoneRow2">
+        <span class="phoneIcon">📋</span>
+        <div><div class="phoneLabel">शिकायत के लिए</div><div class="phoneNum">6393325633</div></div>
+        <span class="callChip callChip2">📞 कॉल</span>
+      </a>
+      <div class="contactLine">🕐 सुबह 8 बजे – रात 10 बजे</div>
+      <div class="contactLine">🚚 होम डिलीवरी उपलब्ध</div>
+      <div class="contactLine">📍 भदौरा, मोहम्मदाबाद, गाजीपुर, उ.प्र. — 233231</div>
+    </div>
+  </div>
+
+  <!-- MENU SCREEN -->
+  <div id="screen-menu" class="screen">
+    <button class="backBtn" onclick="showScreen('home')">← वापस जाएं</button>
+    <div id="menuHeader" class="menuHeader"></div>
+    <div class="itemGrid" id="itemGrid"></div>
+  </div>
+
+  <!-- CART SCREEN -->
+  <div id="screen-cart" class="screen">
+    <div class="sectionTitle">🛒 आपका ऑर्डर</div>
+    <div id="cartContent"></div>
+  </div>
+
+  <!-- ABOUT SCREEN -->
+  <div id="screen-about" class="screen">
+    <div class="aboutHero"><span style="font-size:54px">🍰</span><div style="font-size:18px;font-weight:800;color:#8B0000;margin-top:4px">हमारे बारे में</div></div>
+    <div class="aboutCard">
+      <div class="aboutHeading">श्री शिवनारायण केक बेकरी</div>
+      <p class="aboutText">हम वर्षों से आपके हर खुशी के मौके को और भी यादगार बनाते आ रहे हैं। हमारे हर केक में होती है सच्ची मिठास, शुद्ध सामग्री और ढेर सारा प्यार।</p>
+      <div class="featureGrid">
+        <div class="featureItem">🏆 बेस्ट क्वालिटी</div>
+        <div class="featureItem">❤️ हस्तनिर्मित</div>
+        <div class="featureItem">🚚 होम डिलीवरी</div>
+        <div class="featureItem">🎂 कस्टम केक</div>
+      </div>
+    </div>
+    <div class="aboutCard">
+      <div class="aboutHeading">📞 संपर्क नंबर</div>
+      <a href="tel:9565036890" class="phoneRow">
+        <span class="phoneIcon">📦</span>
+        <div><div class="phoneLabel">ऑर्डर के लिए</div><div class="phoneNum">9565036890</div></div>
+        <span class="callChip">📞 कॉल</span>
+      </a>
+      <a href="tel:6393325633" class="phoneRow phoneRow2">
+        <span class="phoneIcon">📋</span>
+        <div><div class="phoneLabel">शिकायत के लिए</div><div class="phoneNum">6393325633</div></div>
+        <span class="callChip callChip2">📞 कॉल</span>
+      </a>
+      <div style="font-size:12px;color:#666;margin-top:6px">📍 भदौरा, मोहम्मदाबाद, गाजीपुर, उत्तर प्रदेश — 233231</div>
+    </div>
+    <div class="timingCard">
+      <div class="timingTitle">⏰ खुलने का समय</div>
+      <div class="timingRow"><span>सोमवार – शनिवार</span><span>8:00 AM – 10:00 PM</span></div>
+      <div class="timingRow"><span>रविवार</span><span>9:00 AM – 9:00 PM</span></div>
+    </div>
+  </div>
+
+  <!-- ADMIN SCREEN -->
+  <div id="screen-admin" class="screen">
+    <div class="adminHeader">
+      <span>🔐 दुकानदार पैनल</span>
+      <button class="logoutBtn" onclick="adminLogout()">लॉगआउट</button>
+    </div>
+    <div class="adminTabs">
+      <button class="adminTab adminTabActive" id="tabOffers" onclick="switchAdminTab('offers')">🏷️ ऑफर बदलें</button>
+      <button class="adminTab" id="tabMenu" onclick="switchAdminTab('menu')">📋 मेनू बदलें</button>
+    </div>
+    <div id="adminOffers"></div>
+    <div id="adminMenu" style="display:none"></div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="bottomNav">
+  <button class="navBtn active" id="nav-home" onclick="showScreen('home')">
+    <span class="navIcon">🏠</span><span class="navLabel">होम</span>
+  </button>
+  <button class="navBtn" id="nav-menu" onclick="showScreen('menu')">
+    <span class="navIcon">📋</span><span class="navLabel">मेनू</span>
+  </button>
+  <button class="navBtn" id="nav-cart" onclick="showScreen('cart')">
+    <span class="navIcon">🛒</span><span class="navLabel">कार्ट</span>
+    <span class="navBadge" id="navCartBadge">0</span>
+  </button>
+  <button class="navBtn" id="nav-about" onclick="showScreen('about')">
+    <span class="navIcon">ℹ️</span><span class="navLabel">जानकारी</span>
+  </button>
+  <button class="navBtn" id="nav-admin" onclick="showScreen('admin')" style="display:none">
+    <span class="navIcon">⚙️</span><span class="navLabel">एडमिन</span>
+  </button>
+</div>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="modalOverlay" id="adminModal" style="display:none">
+  <div class="modal">
+    <div class="modalTitle">🔐 दुकानदार लॉगिन</div>
+    <div class="modalHint">पासवर्ड: shiv1234</div>
+    <input class="formInput" type="password" id="adminPassInput" placeholder="पासवर्ड दर्ज करें" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+    <div class="errorText" id="adminError" style="display:none">❌ गलत पासवर्ड! फिर से प्रयास करें।</div>
+    <div style="display:flex;gap:8px">
+      <button class="primaryBtn" onclick="doAdminLogin()">लॉगिन करें</button>
+      <button class="cancelBtn" onclick="closeAdminModal()">रद्द करें</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════
+// DATA
+// ═══════════════════════════════
+const ADMIN_PASS = "shiv1234";
+
+const defaultCats = [
+  { id:"1", name:"केक", emoji:"🎂", color:"#8B0000", items:[
+    {name:"चॉकलेट केक",price:"₹350",desc:"रिच डार्क चॉकलेट"},
+    {name:"वेनिला केक",price:"₹280",desc:"क्लासिक स्वाद"},
+    {name:"पाइनएप्पल केक",price:"₹320",desc:"फ्रेश फ्रूट टॉपिंग"},
+    {name:"ब्लैकफॉरेस्ट",price:"₹420",desc:"चेरी के साथ"},
+    {name:"बटर स्कॉच",price:"₹300",desc:"कैरामल फ्लेवर"},
+    {name:"रेड वेलवेट",price:"₹450",desc:"क्रीम चीज़ फ्रॉस्टिंग"},
+  ]},
+  { id:"2", name:"आइसक्रीम", emoji:"🍦", color:"#C2185B", items:[
+    {name:"वेनिला स्कूप",price:"₹40",desc:"क्रीमी वेनिला"},
+    {name:"चॉकलेट स्कूप",price:"₹45",desc:"डार्क चॉकलेट"},
+    {name:"स्ट्रॉबेरी",price:"₹50",desc:"फ्रेश फ्रूट"},
+    {name:"मैंगो",price:"₹55",desc:"आम का स्वाद"},
+    {name:"बटर स्कॉच",price:"₹50",desc:"कैरामल क्रंच"},
+    {name:"कुल्फी",price:"₹35",desc:"देसी स्वाद"},
+  ]},
+  { id:"3", name:"पेस्ट्री", emoji:"🥐", color:"#E65100", items:[
+    {name:"चॉकलेट पेस्ट्री",price:"₹60",desc:"सॉफ्ट और मीठी"},
+    {name:"फ्रूट पेस्ट्री",price:"₹65",desc:"मिक्स फ्रूट"},
+    {name:"क्रीम पफ",price:"₹45",desc:"व्हिप्ड क्रीम"},
+    {name:"एक्लेयर",price:"₹55",desc:"चॉकलेट ग्लेज़"},
+    {name:"टार्ट",price:"₹70",desc:"फ्रेश बेरीज़"},
+    {name:"मफिन",price:"₹40",desc:"होममेड स्वाद"},
+  ]},
+  { id:"4", name:"कोल्ड ड्रिंक्स", emoji:"🥤", color:"#1565C0", items:[
+    {name:"कोला",price:"₹30",desc:"चिल्ड कोल्ड ड्रिंक"},
+    {name:"लेमनेड",price:"₹40",desc:"फ्रेश नींबू"},
+    {name:"मिल्कशेक",price:"₹80",desc:"थिक और क्रीमी"},
+    {name:"ठंडाई",price:"₹60",desc:"देसी स्पेशल"},
+    {name:"आम पन्ना",price:"₹50",desc:"कच्चे आम से"},
+    {name:"लस्सी",price:"₹45",desc:"मलाई वाली"},
+  ]},
+  { id:"5", name:"स्पेशल", emoji:"⭐", color:"#6A1B9A", items:[
+    {name:"वेडिंग केक",price:"₹2500+",desc:"कस्टम ऑर्डर"},
+    {name:"बर्थडे केक",price:"₹500+",desc:"फोटो प्रिंट सहित"},
+    {name:"आइस क्रीम केक",price:"₹800",desc:"फ्रोज़न डिलाइट"},
+    {name:"केक पॉप्स",price:"₹20/piece",desc:"मिनी ट्रीट"},
+    {name:"डोनट",price:"₹35",desc:"ग्लेज़्ड फ्रेश"},
+    {name:"कप केक",price:"₹50",desc:"डेकोरेटेड"},
+  ]},
+];
+
+const defaultOffers = [
+  {id:1,text:"🎂 बर्थडे केक पर 10% की छूट!",bg:"#FFF3E0",active:true},
+  {id:2,text:"🍦 2 स्कूप लो, 1 फ्री पाओ!",bg:"#FCE4EC",active:true},
+  {id:3,text:"⭐ होम डिलीवरी उपलब्ध — 📞 कॉल करें",bg:"#EDE7F6",active:true},
+];
+
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+
+let cats = load("bakery_cats", defaultCats);
+let offers = load("bakery_offers", defaultOffers);
+let cart = [];
+let isAdmin = false;
+let currentCatId = "1";
+let offerIdx = 0;
+let adminTab = "offers";
+let editingOfferIdVal = null;
+let selectedAdminCatId = null;
+let editingItemData = null;
+let showAddItemForm = false;
+let deferredInstall = null;
+
+// ═══════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.navBtn').forEach(b=>b.classList.remove('active'));
+  const scr = document.getElementById('screen-'+name);
+  const nav = document.getElementById('nav-'+name);
+  if(scr) scr.classList.add('active');
+  if(nav) nav.classList.add('active');
+  if(name==='menu') renderMenuScreen();
+  if(name==='cart') renderCart();
+  if(name==='admin' && isAdmin) renderAdminPanel();
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════
+// OFFER BANNER
+// ═══════════════════════════════
+function getActiveOffers(){ return offers.filter(o=>o.active); }
+function nextOffer(){
+  const ao = getActiveOffers();
+  if(!ao.length) return;
+  offerIdx = (offerIdx+1) % ao.length;
+  updateOfferBanner();
+}
+function updateOfferBanner(){
+  const ao = getActiveOffers();
+  if(!ao.length){ document.getElementById('offerBanner').style.display='none'; return; }
+  const o = ao[offerIdx % ao.length];
+  document.getElementById('offerText').textContent = o.text;
+  document.getElementById('offerBanner').style.background = o.bg;
+  document.getElementById('offerBanner').style.display = 'flex';
+}
+setInterval(()=>{ nextOffer(); }, 3500);
+
+// ═══════════════════════════════
+// CATEGORY GRID
+// ═══════════════════════════════
+function renderCatGrid(){
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = cats.map(cat=>`
+    <button class="catCard" style="border-color:${cat.color}" onclick="openCat('${cat.id}')">
+      <div class="catEmojiBg" style="background:${cat.color}18">
+        <span class="catEmoji">${cat.emoji}</span>
+      </div>
+      <div class="catName" style="color:${cat.color}">${cat.name}</div>
+      <div class="catCount">${cat.items.length} आइटम</div>
+    </button>
+  `).join('');
+}
+function openCat(id){ currentCatId=id; showScreen('menu'); }
+
+// ═══════════════════════════════
+// MENU SCREEN
+// ═══════════════════════════════
+function renderMenuScreen(){
+  const cat = cats.find(c=>c.id===currentCatId);
+  if(!cat) return;
+  document.getElementById('menuHeader').innerHTML = `
+    <span style="font-size:26px">${cat.emoji}</span>
+    <span style="font-size:19px;font-weight:800">${cat.name}</span>
+  `;
+  document.getElementById('menuHeader').style.background = cat.color;
+  document.getElementById('itemGrid').innerHTML = cat.items.map((item,i)=>{
+    const inCart = cart.find(c=>c.name===item.name);
+    return `
+      <div class="itemCard">
+        <div class="itemEmoji">${cat.emoji}</div>
+        <div class="itemName">${item.name}</div>
+        <div class="itemDesc">${item.desc}</div>
+        <div class="itemBottom">
+          <span class="itemPrice" style="color:${cat.color}">${item.price}</span>
+          ${inCart
+            ? `<div class="qtyRow">
+                <button class="qtyBtn" style="background:${cat.color}" onclick="removeFromCart('${item.name.replace(/'/g,"\\'")}')">−</button>
+                <span class="qtyNum">${inCart.qty}</span>
+                <button class="qtyBtn" style="background:${cat.color}" onclick="addToCart('${item.name.replace(/'/g,"\\'")}','${cat.name}','${item.price}','${item.desc}')">+</button>
+               </div>`
+            : `<button class="addBtn" style="background:${cat.color}" onclick="addToCart('${item.name.replace(/'/g,"\\'")}','${cat.name}','${item.price}','${item.desc}')">+ जोड़ें</button>`
+          }
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ═══════════════════════════════
+// CART
+// ═══════════════════════════════
+function addToCart(name,catName,price,desc){
+  const ex = cart.find(c=>c.name===name);
+  if(ex) ex.qty++;
+  else cart.push({name,catName,price,desc,qty:1});
+  updateCartBadge();
+  renderMenuScreen();
+}
+function removeFromCart(name){
+  const ex = cart.find(c=>c.name===name);
+  if(!ex) return;
+  if(ex.qty>1) ex.qty--;
+  else cart = cart.filter(c=>c.name!==name);
+  updateCartBadge();
+  const scr = document.getElementById('screen-cart');
+  if(scr.classList.contains('active')) renderCart();
+  renderMenuScreen();
+}
+function updateCartBadge(){
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  const badge = document.getElementById('cartBadge');
+  const navBadge = document.getElementById('navCartBadge');
+  badge.textContent = total;
+  navBadge.textContent = total;
+  badge.style.display = total>0 ? 'flex':'none';
+  navBadge.style.display = total>0 ? 'flex':'none';
+}
+function renderCart(){
+  const el = document.getElementById('cartContent');
+  if(cart.length===0){
+    el.innerHTML=`<div class="emptyCart"><div class="emptyEmoji">🛒</div><div class="emptyText">कार्ट खाली है</div><button class="browseBtn" onclick="showScreen('home')">मेनू देखें</button></div>`;
+    return;
+  }
+  el.innerHTML = cart.map(item=>`
+    <div class="cartItem">
+      <div>
+        <div class="cartItemName">${item.name}</div>
+        <div class="cartItemCat">${item.catName}</div>
+      </div>
+      <div class="cartRight">
+        <div class="qtyRow">
+          <button class="qtyBtn" style="background:#8B0000" onclick="removeFromCart('${item.name.replace(/'/g,"\\'")}')">−</button>
+          <span class="qtyNum">${item.qty}</span>
+          <button class="qtyBtn" style="background:#8B0000" onclick="addToCart('${item.name.replace(/'/g,"\\'")}','${item.catName}','${item.price}','${item.desc}')">+</button>
+        </div>
+        <div class="cartPrice">${item.price}</div>
+      </div>
+    </div>
+  `).join('') + `
+    <div class="orderNote">📞 ऑर्डर कन्फर्म करने के लिए हमें कॉल करें</div>
+    <a href="tel:9565036890" class="orderBtnLink" style="background:#8B0000;margin-bottom:8px">📦 ऑर्डर करें — 9565036890</a>
+    <a href="tel:6393325633" class="orderBtnLink" style="background:#C2185B;margin-bottom:0">📋 शिकायत — 6393325633</a>
+    <button class="clearBtn" onclick="clearCart()">🗑️ कार्ट खाली करें</button>
+  `;
+}
+function clearCart(){ cart=[]; updateCartBadge(); renderCart(); }
+
+// ═══════════════════════════════
+// ADMIN
+// ═══════════════════════════════
+function onGearClick(){
+  if(isAdmin){ adminLogout(); } else { document.getElementById('adminModal').style.display='flex'; setTimeout(()=>document.getElementById('adminPassInput').focus(),100); }
+}
+function closeAdminModal(){
+  document.getElementById('adminModal').style.display='none';
+  document.getElementById('adminPassInput').value='';
+  document.getElementById('adminError').style.display='none';
+}
+function doAdminLogin(){
+  const p = document.getElementById('adminPassInput').value;
+  if(p===ADMIN_PASS){
+    isAdmin=true;
+    document.getElementById('adminGearBtn').textContent='🔓';
+    document.getElementById('nav-admin').style.display='flex';
+    closeAdminModal();
+    showScreen('admin');
+  } else {
+    document.getElementById('adminError').style.display='block';
+  }
+}
+function adminLogout(){
+  isAdmin=false;
+  document.getElementById('adminGearBtn').textContent='⚙️';
+  document.getElementById('nav-admin').style.display='none';
+  showScreen('home');
+}
+function switchAdminTab(tab){
+  adminTab=tab;
+  document.getElementById('tabOffers').className='adminTab'+(tab==='offers'?' adminTabActive':'');
+  document.getElementById('tabMenu').className='adminTab'+(tab==='menu'?' adminTabActive':'');
+  document.getElementById('adminOffers').style.display=tab==='offers'?'block':'none';
+  document.getElementById('adminMenu').style.display=tab==='menu'?'block':'none';
+  renderAdminPanel();
+}
+
+const bgColors=["#FFF3E0","#FCE4EC","#EDE7F6","#E8F5E9","#E3F2FD","#FFF9C4"];
+let newOfferText='', newOfferBg='#FFF3E0';
+
+function renderAdminPanel(){
+  renderAdminOffers();
+  renderAdminMenu();
+}
+
+function renderAdminOffers(){
+  const el=document.getElementById('adminOffers');
+  const colorDots=bgColors.map(c=>`<span class="colorDot" style="background:${c};${newOfferBg===c?'border:3px solid #8B0000':''}" onclick="selectOfferBg('${c}')"></span>`).join('');
+  el.innerHTML=`
+    <div class="adminSectionTitle">मौजूदा ऑफर</div>
+    ${offers.map(o=>`
+      <div class="offerManageCard" style="background:${o.bg};opacity:${o.active?1:0.55}">
+        <div class="offerManageText">${o.text}</div>
+        <div class="offerManageBtns">
+          <button class="${o.active?'toggleBtnOn':'toggleBtnOff'}" onclick="toggleOffer(${o.id})">${o.active?'⏸ बंद करें':'▶ चालू करें'}</button>
+          <button class="editBtn" onclick="startEditOffer(${o.id})">✏️ बदलें</button>
+          <button class="deleteBtn" onclick="deleteOffer(${o.id})">🗑️</button>
+        </div>
+      </div>
+    `).join('')}
+    <div class="adminFormCard">
+      <div class="adminFormTitle">${editingOfferIdVal!==null?'✏️ ऑफर बदलें':'➕ नया ऑफर जोड़ें'}</div>
+      <input class="formInput" id="newOfferInput" placeholder="ऑफर का टेक्स्ट लिखें..." value="${newOfferText.replace(/"/g,'&quot;')}"/>
+      <div style="margin-bottom:10px">
+        <div style="font-size:11px;color:#666;margin-bottom:4px">रंग चुनें:</div>
+        <div>${colorDots}</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="primaryBtn" onclick="saveOffer()">${editingOfferIdVal!==null?'सेव करें':'जोड़ें'}</button>
+        ${editingOfferIdVal!==null?'<button class="cancelBtn" onclick="cancelEditOffer()">रद्द</button>':''}
+      </div>
+    </div>
+  `;
+}
+
+function selectOfferBg(c){ newOfferBg=c; renderAdminOffers(); }
+function toggleOffer(id){ offers=offers.map(o=>o.id===id?{...o,active:!o.active}:o); save('bakery_offers',offers); updateOfferBanner(); renderAdminOffers(); }
+function deleteOffer(id){ offers=offers.filter(o=>o.id!==id); save('bakery_offers',offers); updateOfferBanner(); renderAdminOffers(); }
+function startEditOffer(id){ const o=offers.find(x=>x.id===id); editingOfferIdVal=id; newOfferText=o.text; newOfferBg=o.bg; renderAdminOffers(); document.getElementById('newOfferInput').value=newOfferText; }
+function cancelEditOffer(){ editingOfferIdVal=null; newOfferText=''; newOfferBg='#FFF3E0'; renderAdminOffers(); }
+function saveOffer(){
+  const t=document.getElementById('newOfferInput').value.trim();
+  if(!t) return;
+  if(editingOfferIdVal!==null){
+    offers=offers.map(o=>o.id===editingOfferIdVal?{...o,text:t,bg:newOfferBg}:o);
+  } else {
+    offers.push({id:Date.now(),text:t,bg:newOfferBg,active:true});
+  }
+  save('bakery_offers',offers); updateOfferBanner();
+  editingOfferIdVal=null; newOfferText=''; newOfferBg='#FFF3E0'; renderAdminOffers();
+}
+
+let editItemForm={name:'',price:'',desc:''};
+
+function renderAdminMenu(){
+  const el=document.getElementById('adminMenu');
+  const chips=cats.map(c=>`<button class="catChip" style="background:${selectedAdminCatId===c.id?c.color:'#eee'};color:${selectedAdminCatId===c.id?'#fff':'#333'}" onclick="selectAdminCat('${c.id}')">${c.emoji} ${c.name}</button>`).join('');
+  let itemsHtml='';
+  if(selectedAdminCatId){
+    const cat=cats.find(c=>c.id===selectedAdminCatId);
+    itemsHtml=`
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:14px;font-weight:700;color:${cat.color}">${cat.emoji} ${cat.name}</div>
+        <button class="primaryBtn" style="padding:6px 12px;font-size:12px" onclick="showAddItemFormFn()">➕ नया आइटम</button>
+      </div>
+      ${cat.items.map((item,idx)=>`
+        <div class="menuManageCard">
+          ${editingItemData && editingItemData.catId===selectedAdminCatId && editingItemData.idx===idx
+            ? `<input class="formInput" id="ei_name" value="${item.name.replace(/"/g,'&quot;')}" placeholder="नाम"/>
+               <input class="formInput" id="ei_price" value="${item.price.replace(/"/g,'&quot;')}" placeholder="कीमत"/>
+               <input class="formInput" id="ei_desc" value="${item.desc.replace(/"/g,'&quot;')}" placeholder="विवरण"/>
+               <div style="display:flex;gap:6px"><button class="primaryBtn" onclick="saveEditItem()">सेव</button><button class="cancelBtn" onclick="cancelEditItem()">रद्द</button></div>`
+            : `<div class="menuManageRow">
+                <div class="menuManageInfo">
+                  <div class="itemTitle">${item.name}</div>
+                  <div class="itemSub">${item.desc}</div>
+                  <div class="itemPr" style="color:${cat.color}">${item.price}</div>
+                </div>
+                <div class="menuManageBtns">
+                  <button class="editBtn" onclick="startEditItem('${selectedAdminCatId}',${idx})">✏️</button>
+                  <button class="deleteBtn" onclick="deleteItem('${selectedAdminCatId}',${idx})">🗑️</button>
+                </div>
+               </div>`
+          }
+        </div>
+      `).join('')}
+      ${showAddItemForm?`
+        <div class="adminFormCard">
+          <div class="adminFormTitle">➕ नया आइटम जोड़ें</div>
+          <input class="formInput" id="ni_name" placeholder="आइटम का नाम"/>
+          <input class="formInput" id="ni_price" placeholder="कीमत (जैसे ₹250)"/>
+          <input class="formInput" id="ni_desc" placeholder="विवरण"/>
+          <div style="display:flex;gap:6px">
+            <button class="primaryBtn" onclick="saveNewItem()">जोड़ें</button>
+            <button class="cancelBtn" onclick="cancelAddItem()">रद्द</button>
+          </div>
+        </div>
+      `:''}
+    `;
+  }
+  el.innerHTML=`
+    <div class="adminSectionTitle">कैटेगरी चुनें</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">${chips}</div>
+    ${itemsHtml}
+  `;
+}
+
+function selectAdminCat(id){ selectedAdminCatId=id; editingItemData=null; showAddItemForm=false; renderAdminMenu(); }
+function showAddItemFormFn(){ showAddItemForm=true; editingItemData=null; renderAdminMenu(); }
+function cancelAddItem(){ showAddItemForm=false; renderAdminMenu(); }
+function saveNewItem(){
+  const n=document.getElementById('ni_name').value.trim();
+  const p=document.getElementById('ni_price').value.trim();
+  const d=document.getElementById('ni_desc').value.trim();
+  if(!n) return;
+  cats=cats.map(c=>c.id===selectedAdminCatId?{...c,items:[...c.items,{name:n,price:p||'—',desc:d}]}:c);
+  save('bakery_cats',cats); showAddItemForm=false; renderAdminMenu(); renderCatGrid();
+}
+function startEditItem(catId,idx){ editingItemData={catId,idx}; showAddItemForm=false; renderAdminMenu(); }
+function cancelEditItem(){ editingItemData=null; renderAdminMenu(); }
+function saveEditItem(){
+  const n=document.getElementById('ei_name').value.trim();
+  const p=document.getElementById('ei_price').value.trim();
+  const d=document.getElementById('ei_desc').value.trim();
+  if(!n) return;
+  cats=cats.map(c=>{
+    if(c.id!==editingItemData.catId) return c;
+    const items=[...c.items]; items[editingItemData.idx]={name:n,price:p,desc:d};
+    return {...c,items};
+  });
+  save('bakery_cats',cats); editingItemData=null; renderAdminMenu(); renderCatGrid();
+}
+function deleteItem(catId,idx){
+  cats=cats.map(c=>c.id===catId?{...c,items:c.items.filter((_,i)=>i!==idx)}:c);
+  save('bakery_cats',cats); renderAdminMenu(); renderCatGrid();
+}
+
+// ═══════════════════════════════
+// PWA INSTALL
+// ═══════════════════════════════
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault(); deferredInstall=e;
+  document.getElementById('installBanner').style.display='flex';
+});
+function installApp(){
+  if(!deferredInstall) return;
+  deferredInstall.prompt();
+  deferredInstall.userChoice.then(()=>{ deferredInstall=null; document.getElementById('installBanner').style.display='none'; });
+}
+window.addEventListener('appinstalled',()=>{ document.getElementById('installBanner').style.display='none'; });
+
+// ═══════════════════════════════
+// SERVICE WORKER
+// ═══════════════════════════════
+if('serviceWorker' in navigator){
+  const swCode=`
+    const CACHE='bakery-v1';
+    self.addEventListener('install',e=>{ e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./',document.location.href]))); });
+    self.addEventListener('fetch',e=>{ e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>caches.match('${window.location.href}')))); });
+  `;
+  const swBlob=new Blob([swCode],{type:'text/javascript'});
+  const swURL=URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swURL).catch(()=>{});
+}
+
+// ═══════════════════════════════
+// INIT
+// ═══════════════════════════════
+renderCatGrid();
+updateOfferBanner();
+</script>
+</body>
+</html>
